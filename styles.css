@@ -308,6 +308,8 @@ html, body {
 }
 .sheet-header h2 { margin: 0; font-size: 18px; }
 
+.sheet-header-actions { display: flex; align-items: center; gap: 10px; }
+
 .close-btn {
   border: none;
   background: var(--card-bg);
