@@ -310,7 +310,7 @@ html, body {
 
 .sheet-header-actions { display: flex; align-items: center; gap: 10px; }
 
-.close-btn {
+.close-btn, .icon-btn-sm {
   border: none;
   background: var(--card-bg);
   color: var(--text-secondary);
@@ -322,7 +322,11 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s ease, color 0.15s ease;
 }
+.close-btn:hover, .icon-btn-sm:hover { background: var(--accent-soft); color: var(--accent); }
+.close-btn:active, .icon-btn-sm:active { transform: scale(0.92); }
 
 .sheet-body {
   padding: 16px 20px 24px;
