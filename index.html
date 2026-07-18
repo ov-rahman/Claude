@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Мечты</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <h1 class="title">Мечты</h1>
+    <div class="topbar-actions">
+      <button id="chatBtn" class="icon-btn" title="Чат с ИИ" aria-label="Открыть чат">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M4 4h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H8l-4.4 3.3A1 1 0 0 1 2 19.5V5a1 1 0 0 1 1-1h1z"/></svg>
+      </button>
+      <button id="settingsBtn" class="icon-btn" title="Настройки" aria-label="Открыть настройки">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M19.4 13a7.4 7.4 0 0 0 .1-1 7.4 7.4 0 0 0-.1-1l2.1-1.6a.5.5 0 0 0 .1-.6l-2-3.5a.5.5 0 0 0-.6-.2l-2.5 1a7.6 7.6 0 0 0-1.7-1L14.4 2a.5.5 0 0 0-.5-.4h-4a.5.5 0 0 0-.5.4l-.4 2.7a7.6 7.6 0 0 0-1.7 1l-2.5-1a.5.5 0 0 0-.6.2l-2 3.5a.5.5 0 0 0 .1.6L4.5 11a7.4 7.4 0 0 0 0 2l-2.1 1.6a.5.5 0 0 0-.1.6l2 3.5a.5.5 0 0 0 .6.2l2.5-1a7.6 7.6 0 0 0 1.7 1l.4 2.7a.5.5 0 0 0 .5.4h4a.5.5 0 0 0 .5-.4l.4-2.7a7.6 7.6 0 0 0 1.7-1l2.5 1a.5.5 0 0 0 .6-.2l2-3.5a.5.5 0 0 0-.1-.6L19.4 13zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="segmented" role="tablist">
+    <button class="segment active" data-tab="all" role="tab">Все мечты</button>
+    <button class="segment" data-tab="favorites" role="tab">Избранное</button>
+  </div>
+
+  <form id="addForm" class="add-form">
+    <input id="dreamInput" class="dream-input" type="text" placeholder="Какая у тебя мечта?" autocomplete="off" maxlength="300">
+    <button type="submit" class="add-btn" aria-label="Добавить мечту">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M11 4h2v7h7v2h-7v7h-2v-7H4v-2h7z"/></svg>
+    </button>
+  </form>
+
+  <div id="emptyState" class="empty-state">
+    <p>Пока пусто. Запиши первую мечту — и получишь оценку от нейросети.</p>
+  </div>
+
+  <ul id="dreamList" class="dream-list"></ul>
+</main>
+
+<!-- Settings sheet -->
+<div id="settingsOverlay" class="overlay hidden">
+  <div class="sheet">
+    <div class="sheet-header">
+      <h2>Настройки</h2>
+      <button class="close-btn" data-close="settingsOverlay" aria-label="Закрыть">&times;</button>
+    </div>
+    <div class="sheet-body">
+      <label class="field-label" for="apiUrl">Адрес API</label>
+      <input id="apiUrl" class="field-input" type="text" placeholder="https://api.deepseek.com/chat/completions">
+
+      <label class="field-label" for="apiModel">Модель</label>
+      <input id="apiModel" class="field-input" type="text" placeholder="deepseek-chat">
+
+      <label class="field-label" for="apiKey">API-ключ</label>
+      <div class="key-row">
+        <input id="apiKey" class="field-input" type="password" placeholder="sk-...">
+        <button type="button" id="toggleKeyBtn" class="mini-btn">Показать</button>
+      </div>
+      <p class="hint">Ключ хранится только в этом браузере (localStorage) и никуда, кроме выбранного адреса API, не отправляется.</p>
+
+      <label class="field-label" for="instruction">Инструкция для нейросети</label>
+      <textarea id="instruction" class="field-textarea" rows="4" placeholder="Например: оценивай мечты кратко и вдохновляюще, в 2-3 предложениях."></textarea>
+      <p class="hint">Эта инструкция используется и при оценке мечт, и в чате.</p>
+
+      <div class="sheet-actions">
+        <button id="saveSettingsBtn" class="primary-btn">Сохранить</button>
+        <span id="settingsSaved" class="saved-msg hidden">Сохранено ✓</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chat sheet -->
+<div id="chatOverlay" class="overlay hidden">
+  <div class="sheet sheet-tall">
+    <div class="sheet-header">
+      <h2>Чат с ИИ</h2>
+      <button class="close-btn" data-close="chatOverlay" aria-label="Закрыть">&times;</button>
+    </div>
+    <div id="chatMessages" class="chat-messages"></div>
+    <form id="chatForm" class="chat-form">
+      <input id="chatInput" class="chat-input" type="text" placeholder="Напиши сообщение…" autocomplete="off">
+      <button type="submit" class="add-btn" aria-label="Отправить">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+      </button>
+    </form>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
