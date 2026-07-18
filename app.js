@@ -263,6 +263,14 @@ document.getElementById('chatBtn').addEventListener('click', () => {
   openOverlay('chatOverlay');
 });
 
+document.getElementById('clearChatBtn').addEventListener('click', () => {
+  if (chatHistory.length === 0) return;
+  if (!confirm('Очистить историю чата? ИИ забудет весь предыдущий разговор.')) return;
+  chatHistory = [];
+  saveChat();
+  renderChat();
+});
+
 document.getElementById('chatForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const input = document.getElementById('chatInput');

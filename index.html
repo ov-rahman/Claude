@@ -84,7 +84,10 @@
   <div class="sheet sheet-tall">
     <div class="sheet-header">
       <h2>Чат с ИИ</h2>
-      <button class="close-btn" data-close="chatOverlay" aria-label="Закрыть">&times;</button>
+      <div class="sheet-header-actions">
+        <button id="clearChatBtn" class="mini-btn" type="button">Очистить историю</button>
+        <button class="close-btn" data-close="chatOverlay" aria-label="Закрыть">&times;</button>
+      </div>
     </div>
     <div id="chatMessages" class="chat-messages"></div>
     <form id="chatForm" class="chat-form">
